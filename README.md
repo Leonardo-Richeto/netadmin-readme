@@ -13,17 +13,26 @@ na Seção de Redes. Em produção desde jul/2026.
 flowchart LR
     subgraph Antes
         direction TB
-        S1[5 sistemas separados<br/>entre eles uma planilha Excel<br/>e um sistema legado]
+        a1([Unidade]) --> a2[0800] --> a3[Planilha Excel<br/>de solicitação] --> a4[E-mail] --> a5[Chamado no Cherwell]
+        a5 --> a6[Planilha Excel<br/>de controle] --> a7[E-mail ao órgão<br/>público fiscalizador] --> a8[Ferramenta de intermediação<br/>com a operadora] --> a9([Operadora instala o link])
+        a6 --> a10[E-mails de aviso<br/>ao NOC]
     end
     subgraph Depois
         direction TB
-        N[NetAdmin<br/>fonte única de dados]
+        d1([Unidade]) --> d2[NetAdmin<br/>solicitação e controle] --> d3[E-mail ao órgão<br/>público fiscalizador<br/>montado pelo NetAdmin] --> d4[Ferramenta de intermediação<br/>com a operadora] --> d5([Operadora instala o link])
+        d2 --> d6[E-mails de aviso ao NOC<br/>montados pelo NetAdmin]
     end
-    Antes -->|unificação| Depois
+    Antes ~~~ Depois
+
+    classDef removido stroke:#f85149,stroke-width:2px,stroke-dasharray:5 3
+    classDef netadmin stroke:#3fb950,stroke-width:3px
+    class a2,a3,a4,a5,a6 removido
+    class d2 netadmin
 ```
 
-O fluxo de pedidos de link estava dividido em 5 sistemas. Isso gerava retrabalho
-e erros de digitação. O NetAdmin virou a fonte única de dados de todas as seções.
+Em vermelho tracejado, as etapas que o NetAdmin eliminou: o 0800, as planilhas
+Excel, o e-mail da planilha e o chamado no Cherwell. O NetAdmin virou a fonte
+única de dados das seções.
 
 ## Arquitetura
 
